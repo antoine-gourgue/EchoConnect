@@ -79,7 +79,7 @@ import SocketService from "@/socket";
 const users = ref([]);
 const openCreateChannelModal = ref(false);
 
-const socket = io('http://localhost:3001');
+const socket = io(`${import.meta.env.VITE_API_URL}`);
 
 const currentUser = computed(() => {
   return JSON.parse(localStorage.getItem('user'));
@@ -87,7 +87,6 @@ const currentUser = computed(() => {
 
 onMounted(() => {
   SocketService.socket.on('updateUserList', (updatedUsers) => {
-    console.log("passe")
     users.value = updatedUsers.map(user => ({
       id: user.userId, // Assurez-vous que cela correspond à ce que le serveur envoie
       socketId: user.socketId,
@@ -101,9 +100,7 @@ onMounted(() => {
 const onLogout = () => {
   const userConnected = JSON.parse(localStorage.getItem('user'));
 
-  console.log('PASSE', userConnected)
   if(userConnected){
-    console.log('emit logout', userConnected.id)
     SocketService.socket.emit('logout', userConnected.id);
     localStorage.removeItem('token');
     localStorage.removeItem('user');

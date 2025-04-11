@@ -2,7 +2,7 @@
   <div class="flex h-screen">
     <SideBar />
   <div class="flex flex-col h-screen w-full">
-    <div class="flex h-[13rem] items-center justify-between w-full border-b border-gray-200 p-2">
+    <div class="flex h-[72px] items-center justify-between w-full border-b border-gray-200 p-2">
       <div class="flex-grow text-center">
         <h1 class="text-xl font-bold inline-block">
           Général
@@ -75,7 +75,7 @@ SocketService.socket?.on('receiveMessage', message => {
 
 async function loadMessages() {
   try {
-    const response = await fetch('http://localhost:3001/general-messages');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/general-messages`);
     if (response.ok) {
       const data = await response.json();
       messages.value = data.data;
@@ -139,7 +139,7 @@ const sendMessage = async () => {
     SocketService.socket?.emit('sendMessage', messagePayload);
 
     try {
-      const response = await fetch('http://localhost:3001/general-messages', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/general-messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +149,6 @@ const sendMessage = async () => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result.message); // Message de succès
       } else {
         console.error("Erreur lors de l'envoi du message.");
       }

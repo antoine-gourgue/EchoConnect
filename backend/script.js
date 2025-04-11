@@ -19,7 +19,6 @@ db.once('open', async () => {
         });
 
         await user.save();
-        console.log("Utilisateur créé avec succès");
         db.close();
     } catch (error) {
         console.error(error);

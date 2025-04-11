@@ -71,6 +71,7 @@ import Swal from "sweetalert2";
 import type {ComputedRef, Ref} from "vue";
 import router from "@/router";
 import {listChannelUsers, manageChatCommand} from "@/utils/chat-command";
+import * as timers from "node:timers";
 
 type Message = {
   channelId: string;
@@ -101,7 +102,7 @@ const channelId: ComputedRef<string> = computed(() => {
 
 
 /* METHODS */
-const isMessageFromCurrentUser = (senderId) => {
+const isMessageFromCurrentUser = (senderId: any) => {
   return senderId === currentUser.value.id;
 };
 
@@ -154,7 +155,7 @@ const sendMessage = async () => {
 
     try {
       // Envoyer le message au serveur pour sauvegarde dans la base de données
-      await axios.post('http://localhost:3001/messages-channels/send', message);
+      await axios.post(`${import.meta.env.VITE_API_URL}/messages-channels/send`, message);
 
       // Émettre le message via Socket.io pour l'envoyer en temps réel aux autres utilisateurs
       if (SocketService.socket) {
@@ -176,14 +177,13 @@ const sendMessage = async () => {
 const onReceiveChannelMessage = () => {
   if (SocketService.socket) {
     SocketService.socket.on('receiveChannelMessage', (message) => {
-      console.log('receiveChannelMessage', message)
       messages.value.push(message);
       scrollToBottom();
     });
   }
 };
 
-const formatDate = (timestamp) => {
+const formatDate = (timestamp: any) => {
   return new Date(timestamp).toLocaleString('fr-FR', {
     year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
   });
@@ -209,7 +209,7 @@ const addUser = async () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.get(`http://localhost:3001/users/search?name=${userName}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/search?name=${userName}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -218,7 +218,7 @@ const addUser = async () => {
       const user = response.data[0];
 
       if (user) {
-        await axios.put(`http://localhost:3001/channels/${channelId.value}/addMember/${user._id}`, {}, {
+        await axios.put(`${import.meta.env.VITE_API_URL}/channels/${channelId.value}/addMember/${user._id}`, {}, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -276,7 +276,7 @@ const deleteChannel = async () => {
     if (result.isConfirmed) {
       const token = localStorage.getItem('token');
       try {
-        await axios.delete(`http://localhost:3001/channels/${channelId.value}`, {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/channels/${channelId.value}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -304,13 +304,12 @@ const deleteChannel = async () => {
 
 /* WATCHERS */
 watch(channelId, async (newChannelId: string) => {
-  console.log('Channel ID changed:', newChannelId);
   if (SocketService.socket) {
     SocketService.socket.emit('joinChannel', {channelId: newChannelId, userId: currentUser.value.id});
   }
 
   try {
-    const response = await axios.get(`http://localhost:3001/messages-channels/${newChannelId}`);
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/messages-channels/${newChannelId}`);
     messages.value = response.data;
   } catch (error) {
     console.error('Error loading messages:', error);

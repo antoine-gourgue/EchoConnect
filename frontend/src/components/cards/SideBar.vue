@@ -193,7 +193,6 @@ const showUsers = ref(false); // Contrôle l'affichage de la liste des utilisate
 const showChannels = ref(false);
 const emit = defineEmits(['logout', 'update:openCreateChannelModal'])
 const currentUser = ref(JSON.parse(localStorage.getItem('user'|| '{}')));
-console.log('currentUser', currentUser.value)
 
 /* PROPS */
 const props = defineProps({
@@ -265,7 +264,7 @@ const createChannel = async () => {
 
   if (channelName) {
     try {
-      const response = await axios.post('http://localhost:3001/channels/create', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/channels/create`, {
         name: channelName,
         createdBy: currentUser.value.id,
         members: [currentUser.value.id],
@@ -286,7 +285,6 @@ const createChannel = async () => {
 // Écouter la réponse de la création du canal
 SocketService.socket?.on('channelCreated', (data) => {
   channels.value.push(data);
-  console.log('channels', channels.value)
   Swal.fire('Nouveau canal !', `Un nouveau canal a été créé: ${data.name}`, 'info');
 });
 
@@ -296,7 +294,7 @@ SocketService.socket?.on('channelCreationError', (error) => {
 
 const fetchUserChannels = async () => {
   try {
-    const { data }: { data: Channel[] } = await axios.get(`http://localhost:3001/channels/user/${currentUser.value.id}`);
+    const { data }: { data: Channel[] } = await axios.get(`${import.meta.env.VITE_API_URL}/channels/user/${currentUser.value.id}`);
     channels.value = data;
   } catch (error) {
     console.error("Erreur lors de la récupération des canaux de l'utilisateur", error);

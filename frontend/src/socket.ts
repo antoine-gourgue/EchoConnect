@@ -4,7 +4,6 @@ import io, {Socket} from "socket.io-client";
 export default class SocketService {
     public static socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined
     public static init(): void {
-        console.log("SocketService init")
-        this.socket = io('http://localhost:3001')
+        this.socket = io(`${import.meta.env.VITE_API_URL}`)
     }
 }

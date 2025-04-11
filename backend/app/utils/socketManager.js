@@ -9,13 +9,10 @@ let channelInvitations = {};
 
 const init = (_io) => {
     io = _io;
-    console.log("Socket.io initialisé avec succès");
 
     io.on('connection', (socket) => {
-        console.log(`Un utilisateur est connecté, ID Socket: ${socket.id}`);
 
         socket.on('joinConnectedUsers', async (userId) => {
-            console.log("joinConnectedUsers", userId)
             await addConnectUser(userId, socket.id);
         })
 
@@ -86,7 +83,6 @@ const removeConnectedUser = (userId) => {
     const index = connectedUsers.findIndex(user => user.userId === userId);
     if (index !== -1) {
         connectedUsers.splice(index, 1);
-        console.log(`Utilisateur supprimé: `, userId);
     }
 }
 
@@ -97,7 +93,6 @@ const attachLogoutListener = (socket) => {
         const connectedUser = connectedUsers.find(user => user.userId === userId);
 
         if (connectedUser) {
-            console.log(`Marquer l'utilisateur comme déconnecté: `, connectedUser.userId);
             connectedUser.isOnline = false;
             removeConnectedUser(connectedUser.userId);
             emitConnectedUsers();
@@ -115,12 +110,10 @@ const handleGeneralChatMessage = (socket) => {
         const user = connectedUsers.find(user => user.userId === payload.user.id);
 
         if (user) {
-            console.log(`Message reçu dans le canal général : ${payload.text} de ${user.username}`);
 
             // Diffuser le message enrichi à tous les clients connectés, y compris l'expéditeur
             io.emit('receiveMessage', payload);
         } else {
-            console.log("Utilisateur non trouvé pour l'ID:", payload.userId);
         }
     });
 }
@@ -135,14 +128,11 @@ const handlePrivateMessage = (socket) => {
         const receiverSocketId = connectedUsers.find(user => user.username === receiverUsername)?.socketId;
 
 
-        console.log(receiverSocketId)
 
         if (receiverSocketId) {
             // Assurez-vous d'inclure senderUsername dans l'objet émis
             io.to(receiverSocketId).emit('receivePrivateMessage', { senderId, senderUsername, receiverUsername, text, timestamp });
-            console.log(`Message privé envoyé de ${senderUsername} à ${receiverUsername}: ${text}`);
         } else {
-            console.log(`Destinataire non trouvé pour le username: ${receiverUsername}`);
         }
     });
 }
@@ -179,7 +169,6 @@ const addUserToChannel = (socket) => {
         if (channel) {
             channel.members.add(userIdToAdd);
             io.to(channelId).emit('userAddedToChannel', { channelId, userId: userIdToAdd });
-            console.log(`User ${userIdToAdd} added to channel ${channelId}`);
         } else {
             socket.emit('errorAddingUserToChannel', 'Channel does not exist.');
         }
@@ -188,7 +177,6 @@ const addUserToChannel = (socket) => {
 
 const joinChannel = (socket) => {
     socket.on('joinChannel', ({ channelId, userId }) => {
-        console.log(`${userId} rejoint le canal ${channelId}`);
         socket.join(channelId);
     });
 };
@@ -196,9 +184,7 @@ const joinChannel = (socket) => {
 const handleChannelMessage = (socket) => {
     socket.on('sendChannelMessage', (message) => {
         const { channelId, senderId, text } = message;
-        console.log(`Tentative d'envoi d'un message au canal ${channelId} par l'utilisateur ${senderId}`);
         io.to(channelId).emit('receiveChannelMessage', message);
-        console.log(`Message envoyé au canal ${channelId}: ${text}`);
     });
 
 

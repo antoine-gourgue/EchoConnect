@@ -18,7 +18,6 @@ function selectUser(user) {
 // Écouter les mises à jour de la liste des utilisateurs connectés
 onMounted(() => {
   SocketService.socket?.on('updateUserList', (updatedUsers) => {
-    console.log("Utilisateurs mis à jour reçus:", updatedUsers);
     users.value = updatedUsers.map(user => ({
       id: user.userId,
       name: user.username,

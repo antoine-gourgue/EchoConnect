@@ -61,14 +61,12 @@ export function manageChatCommand(commandText: string, channelId: string, callba
 // Fonctions pour chaque commande avec des arguments clairs et la gestion des erreurs
 
 function setNickname(nickname: string) {
-    console.log(`Setting nickname to ${nickname}`);
 }
 
 async function listChannels(filter?: string) {
-    console.log(`Listing available channels with filter: ${filter}`);
 
     // Construire l'URL avec un paramètre de requête pour le filtre, si présent
-    let url = 'http://localhost:3001/channels';
+    let url = `${import.meta.env.VITE_API_URL}/channels`;
     if (filter) {
         url += `?filter=${encodeURIComponent(filter)}`;
     }
@@ -87,31 +85,25 @@ async function listChannels(filter?: string) {
 }
 
 function createChannel(channelName: string) {
-    console.log(`Creating channel: ${channelName}`);
 }
 
 function deleteChannel(channelName: string) {
-    console.log(`Deleting channel: ${channelName}`);
 }
 
 function joinChannel(channelName: string) {
-    console.log(`Joining channel: ${channelName}`);
 }
 
 function quitChannel(channelName: string) {
-    console.log(`Quitting channel: ${channelName}`);
 }
 
 export async function listChannelUsers(channelId: string): Promise<any[]> {
-    console.log(`Listing users in channel: ${channelId}`);
 
     try {
-        const response = await fetch(`http://localhost:3001/channels/${channelId}/members`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/channels/${channelId}/members`);
         if (!response.ok) {
             throw new Error('Failed to fetch channel members');
         }
         const members = await response.json();
-        console.log(members);
         return members; // Retourne les membres
     } catch (error) {
         console.error("Error listing channel members:", error);
@@ -120,5 +112,4 @@ export async function listChannelUsers(channelId: string): Promise<any[]> {
 }
 
 function sendPrivateMessage(nickname: string, message: string) {
-    console.log(`Sending private message to ${nickname}: ${message}`);
 }

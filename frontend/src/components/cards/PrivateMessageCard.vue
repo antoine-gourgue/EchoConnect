@@ -65,7 +65,7 @@ const fetchPrivateMessages = async () => {
   const receiverId = route.params.userId; // Assurez-vous que ce paramètre est correctement transmis à votre route
 
   try {
-    const response = await fetch(`http://localhost:3001/private-messages/${senderId}/${receiverId}`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/private-messages/${senderId}/${receiverId}`);
     const data = await response.json();
     if (response.ok) {
       messages.value = data; // Supposons que l'API renvoie un tableau de messages
@@ -96,7 +96,6 @@ onMounted(() => {
   fetchPrivateMessages();
   SocketService.socket.on('receivePrivateMessage', (message) => {
     messages.value.push({...message});
-    console.log('Message reçu:', message);
   });
 });
 // Fonction pour envoyer un message privé
@@ -113,7 +112,7 @@ const sendPrivateMessage = async () => {
 
     // Envoyer le message à la base de données via votre API
     try {
-      const response = await fetch('http://localhost:3001/private-messages', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/private-messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +123,6 @@ const sendPrivateMessage = async () => {
       if (!response.ok) {
         throw new Error(responseData.message || 'Failed to send the message');
       }
-      console.log('Message saved:', responseData);
       // Si l'enregistrement en DB est réussi, on peut également l'émettre via Socket.IO
       SocketService.socket.emit('sendPrivateMessage', messagePayload);
       messages.value.push({...messagePayload, ...responseData}); // Assume que la réponse inclut des données enrichies, comme un ID de message

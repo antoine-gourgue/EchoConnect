@@ -27,7 +27,6 @@ const deleteUser = async (userId) => {
 };
 
 const secretKey = process.env.JWT_SECRET;
-console.log("Clé secrète JWT :", secretKey);
 
 const authenticateUser = async (email, password) => {
     const user = await User.findOne({ email });

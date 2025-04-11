@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 applyRoutes(app);
 
-mongoose.connect('mongodb://127.0.0.1:27017/IRC')
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("Connecté avec succès à MongoDB"))
     .catch(err => console.error("Erreur de connexion MongoDB:", err));
 
@@ -31,5 +31,4 @@ mongoose.connect('mongodb://127.0.0.1:27017/IRC')
 SocketManager.init(io);
 
 http.listen(PORT, () => {
-    console.log(`Serveur démarré sur le port ${PORT}`);
 });

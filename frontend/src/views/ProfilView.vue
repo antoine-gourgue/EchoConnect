@@ -70,7 +70,7 @@ const currentUsername = computed(() => {
 const updateEmail = async (userId) => {
   try {
     const token = localStorage.getItem('token');
-    await axios.put(`http://localhost:3001/users/${userId}/email`, { email: editData.value.email }, {
+    await axios.put(`${import.meta.env.VITE_API_URL}/users/${userId}/email`, { email: editData.value.email }, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -89,7 +89,7 @@ const updatePassword = async (userId) => {
   }
   try {
     const token = localStorage.getItem('token');
-    await axios.put(`http://localhost:3001/users/${userId}/password`, { password: passwordData.value.newPassword }, {
+    await axios.put(`${import.meta.env.VITE_API_URL}/users/${userId}/password`, { password: passwordData.value.newPassword }, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -114,7 +114,7 @@ const deleteProfile = async () => {
     if (result.isConfirmed) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:3001/users/${currentUser.value.id}`, {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/users/${currentUser.value.id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -131,7 +131,7 @@ const deleteProfile = async () => {
   });
 };
 
-const socket = io('http://localhost:3001');
+const socket = io(`${import.meta.env.VITE_API_URL}`);
 const onLogout = () => {
   const userConnected = JSON.parse(localStorage.getItem('user'));
 
@@ -145,7 +145,7 @@ const onLogout = () => {
 const fetchUserMessages = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`http://localhost:3001/messages/user/${currentUser.value.id}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/messages/user/${currentUser.value.id}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
