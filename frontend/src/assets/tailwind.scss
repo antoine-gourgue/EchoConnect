@@ -1,3 +1,95 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 font-sans text-slate-900 antialiased;
+  }
+
+  ::selection {
+    @apply bg-echo-500/20;
+  }
+}
+
+@layer components {
+  /* Champ de saisie */
+  .ec-input {
+    @apply block w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-echo-400 focus:ring-4 focus:ring-echo-500/10;
+  }
+
+  /* Bouton principal (dégradé de marque) */
+  .ec-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-echo-500 to-violet-500 px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Bouton secondaire */
+  .ec-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-echo-300 hover:text-echo-600 active:scale-[0.98];
+  }
+
+  /* Bouton danger discret */
+  .ec-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100 active:scale-[0.98];
+  }
+
+  /* Bulles de chat */
+  .bubble-me {
+    @apply max-w-[75%] rounded-2xl rounded-br-md bg-gradient-to-br from-echo-500 to-violet-500 px-4 py-2.5 text-white shadow-soft sm:max-w-[60%];
+  }
+
+  .bubble-them {
+    @apply max-w-[75%] rounded-2xl rounded-bl-md border border-slate-200 bg-white px-4 py-2.5 text-slate-800 shadow-sm sm:max-w-[60%];
+  }
+
+  .bubble-system {
+    @apply mx-auto rounded-full bg-slate-200/70 px-4 py-1.5 text-xs font-medium text-slate-500;
+  }
+
+  /* Avatar à initiale */
+  .ec-avatar {
+    @apply flex items-center justify-center rounded-full bg-gradient-to-br from-echo-400 to-violet-500 font-semibold text-white;
+  }
+
+  /* Tooltip du rail latéral */
+  .ec-tooltip {
+    @apply pointer-events-none absolute left-[60px] top-1/2 z-50 hidden -translate-y-1/2 whitespace-nowrap rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-semibold text-white shadow-lg group-hover:block;
+  }
+}
+
+/* SweetAlert2 aux couleurs EchoConnect */
+.swal2-popup {
+  border-radius: 1.25rem !important;
+  font-family: theme('fontFamily.sans') !important;
+}
+.swal2-title {
+  font-size: 1.25rem !important;
+}
+.swal2-styled.swal2-confirm {
+  background: linear-gradient(to right, #6366f1, #8b5cf6) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: none !important;
+}
+.swal2-styled.swal2-cancel {
+  border-radius: 0.75rem !important;
+}
+.swal2-input {
+  border-radius: 0.75rem !important;
+}
+
+@layer utilities {
+  /* Barre de défilement discrète */
+  .ec-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.slate.300') transparent;
+  }
+  .ec-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .ec-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .ec-scroll::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300;
+  }
+}

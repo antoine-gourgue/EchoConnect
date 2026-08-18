@@ -9,21 +9,34 @@ export default {
       lg: '1024px',
       xl: '1280px',
       '2xl': '1536px',
-      '3xl': '1920px',
-      '4xl': '2560px'
     },
     extend: {
       colors: {
-        indigo: {
-          600: "#4341c0"
-        }
+        echo: {
+          50: '#EEF2FF',
+          100: '#E0E7FF',
+          200: '#C7D2FE',
+          300: '#A5B4FC',
+          400: '#818CF8',
+          500: '#6366F1',
+          600: '#5458E8',
+          700: '#4338CA',
+          900: '#312E81',
+        },
       },
       fontFamily: {
-        'fredoka': ['Fredoka One', 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "Noto Sans", sans-serif'],
-        'inter': ['Inter', 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "Noto Sans", sans-serif'],
+        sans: [
+          'Plus Jakarta Sans',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'sans-serif',
+        ],
+      },
+      boxShadow: {
+        soft: '0 8px 30px -12px rgba(49, 46, 129, 0.25)',
       },
     },
   },
   plugins: [],
 }
-

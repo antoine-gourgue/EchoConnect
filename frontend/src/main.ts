@@ -1,9 +1,14 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-/* SCSS FILES */
 import './assets/tailwind.scss'
 import App from './App.vue'
 import router from './router'
+import { DEMO, installDemo } from './demo/demo'
+
+// Le mode démo doit être en place avant le premier appel API
+if (DEMO) {
+  installDemo()
+}
 
 const app = createApp(App)
 
