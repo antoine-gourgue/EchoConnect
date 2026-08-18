@@ -9,7 +9,7 @@
       </router-link>
     </div>
 
-    <nav class="ec-scroll flex flex-1 flex-col items-center gap-y-3 overflow-y-auto pt-6">
+    <nav class="flex flex-1 flex-col items-center gap-y-3 pt-6">
       <!-- Messages privés -->
       <button
         class="group relative rounded-xl p-2.5 text-slate-400 transition hover:bg-slate-800 hover:text-white"
