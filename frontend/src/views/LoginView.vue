@@ -12,7 +12,7 @@
       ></div>
 
       <div class="relative flex items-center gap-3">
-        <div class="h-10"><EchoLogo /></div>
+        <div class="h-10"><EchoLogo dark /></div>
         <span class="text-xl font-bold text-white">EchoConnect</span>
       </div>
 

@@ -5,7 +5,7 @@
     <!-- Logo -->
     <div class="flex h-[72px] w-full items-center justify-center border-b border-slate-800">
       <router-link to="/home" class="block h-9 transition hover:scale-105">
-        <EchoLogo />
+        <EchoLogo dark />
       </router-link>
     </div>
 
